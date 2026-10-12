@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>PrivacyIsland</RootNamespace>
+    <AssemblyName>PrivacyIsland</AssemblyName>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <Version>1.0.0</Version>
+    <Product>PrivacyIsland</Product>
+    <Description>摄像头 / 麦克风使用时的灵动岛式隐私提示工具</Description>
+
+    <!-- ===== 单文件 + 自包含发布配置 =====
+         直接执行：dotnet publish -c Release
+         即可得到 target 目录下的单个 PrivacyIsland.exe（无需安装 .NET 运行时） -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <!-- 如需更小体积（约省一半）可改为 true，代价是首次启动解压稍慢：
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    -->
+    <SatelliteResourceLanguages>en;zh-Hans</SatelliteResourceLanguages>
+
+    <!-- 允许在非 Windows 系统上交叉编译（CI / 开发者用，不影响 Windows 本地构建） -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+
+    <!-- WFAC010：WinForms 分析器建议 DPI 用 API 配置，但本项目主框架是 WPF，
+         PerMonitorV2 必须由 app.manifest 声明（用户需求），因此压制该提示 -->
+    <NoWarn>$(NoWarn);WFAC010</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- 托盘与窗口图标：嵌入为程序集资源（运行时用名字 PrivacyIsland.icon.ico 读取） -->
+    <EmbeddedResource Include="icon.ico" LogicalName="PrivacyIsland.icon.ico" />
+  </ItemGroup>
+
+</Project>
